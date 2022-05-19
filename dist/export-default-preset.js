@@ -24,7 +24,7 @@ exports.exportDefaultPreset = void 0;
 const fs_1 = require("fs");
 const logger_1 = require("./logger");
 const helper_1 = require("./helper");
-const exportDefaultPreset = (directus, collection, target) => __awaiter(void 0, void 0, void 0, function* () {
+const exportDefaultPreset = (directus, collection, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
     (0, logger_1.log)(`Exporting default preset for collection ${collection}`, logger_1.Level.INFO);
     try {
         const preset = yield (0, helper_1.getDefaultPresetForCollection)(directus, collection);
@@ -33,7 +33,6 @@ const exportDefaultPreset = (directus, collection, target) => __awaiter(void 0, 
             return;
         }
         else {
-            const targetFile = `${target ? `${target}/` : ''}preset-${collection}.json`;
             // Remove id column from presets
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { id } = preset, presetWithoutId = __rest(preset, ["id"]);

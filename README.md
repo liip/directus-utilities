@@ -6,13 +6,13 @@ Brings some missing utility functions for directus.
 
 ### `exportDefaultPreset`
 
-Exports default preset for given collection to a JSON file with the following name: `preset-<collection>.json`
+Exports default preset for given collection to a JSON file.
 
 #### Params
 
 * **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
 * **collection** (`string`): Name of the collection.
-* **target?** (`string`): Target folder where exported preset should be saved (Default: not set).
+* **targetFile** (`string`): Target filename (incl. path) where preset should be exported.
 
 ### `importDefaultPreset`
 
@@ -23,7 +23,7 @@ If there is already a default preset for the given collection it will be updated
 
 * **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
 * **collection** (`string`): Name of the collection.
-* **sourceFile** (`string`): File name of the previously exported JSON file.
+* **sourceFile** (`string`): Filename of the previously exported JSON file.
 
 ## How to create an authenticated directus instance
 

@@ -6,7 +6,7 @@ import { getDefaultPresetForCollection } from './helper';
 export const exportDefaultPreset = async (
   directus: IDirectus<TypeMap>,
   collection: string,
-  target?: string
+  targetFile: string
 ) => {
   log(`Exporting default preset for collection ${collection}`, Level.INFO);
   try {
@@ -15,9 +15,6 @@ export const exportDefaultPreset = async (
       log(`Default preset not found for ${collection}`, Level.WARN);
       return;
     } else {
-      const targetFile = `${
-        target ? `${target}/` : ''
-      }preset-${collection}.json`;
       // Remove id column from presets
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id, ...presetWithoutId } = preset;
