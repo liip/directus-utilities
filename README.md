@@ -4,7 +4,7 @@ Brings some missing utility functions for directus.
 
 ## Available functions
 
-### exportDefaultPreset
+### `exportDefaultPreset`
 
 Exports default preset for given collection to a JSON file with the following name: `preset-<collection>.json`
 
@@ -14,7 +14,7 @@ Exports default preset for given collection to a JSON file with the following na
 * **collection** (`string`): Name of the collection.
 * **target?** (`string`): Target folder where exported preset should be saved (Default: not set).
 
-### importDefaultPreset
+### `importDefaultPreset`
 
 Imports default preset for given collection from a JSON file.
 If there is already a default preset for the given collection it will be updated otherwise it will be created.
