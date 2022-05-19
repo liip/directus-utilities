@@ -25,7 +25,9 @@ If there is already a default preset for the given collection it will be updated
 * **collection** (`string`): Name of the collection.
 * **sourceFile** (`string`): Filename of the previously exported JSON file.
 
-## How to create an authenticated directus instance
+## Usage
+
+### How to create an authenticated directus instance
 
 ```js
 const { Directus } = require('@directus/sdk');
@@ -41,4 +43,47 @@ If you want to use email and password. You should remove the staticToken above a
 
 ```js
 await directus.auth.login({ email, password })
+```
+
+### Examples
+
+```js
+// Export
+const { Directus } = require('@directus/sdk');
+const { exportDefaultPreset } = require('../directus-utilities/dist/index.js');
+
+const run = async () => {
+  const directus = new Directus('http://localhost:8055', {
+    auth: {
+        staticToken: 'STATIC_TOKEN',
+    },
+  });
+
+  await exportDefaultPreset(directus, 'products', './presets/products-preset.json');
+};
+
+run().then(() => {
+  process.exit();
+});
+```
+
+```js
+// Import
+const { Directus } = require('@directus/sdk');
+const { importDefaultPreset } = require('../directus-utilities/dist/index.js');
+
+const run = async () => {
+  const directus = new Directus('http://localhost:8055', {
+    auth: {
+        staticToken: 'STATIC_TOKEN',
+    },
+  });
+
+  await importDefaultPreset(directus, 'products', './presets/products-preset.json');
+};
+
+run().then(() => {
+  process.exit();
+});
+
 ```
