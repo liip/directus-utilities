@@ -25,7 +25,8 @@
   "author": "Juerg Hunziker <juerg.hunziker@liip.ch>",
   "license": "GPL-2.0-or-later",
   "dependencies": {
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "form-data": "^4.0.0"
   },
   "devDependencies": {
     "@directus/sdk": "^9.10.0",

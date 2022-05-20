@@ -1,6 +1,6 @@
 import { IDirectus, TypeMap } from '@directus/sdk';
 import { readFileSync } from 'fs';
-import { log, Level } from './logger';
+import { log, Level } from '../utils/logger';
 import { getDefaultPresetForCollection } from './helper';
 
 export const importDefaultPreset = async (

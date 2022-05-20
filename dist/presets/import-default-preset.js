@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.importDefaultPreset = void 0;
 const fs_1 = require("fs");
-const logger_1 = require("./logger");
+const logger_1 = require("../utils/logger");
 const helper_1 = require("./helper");
 const importDefaultPreset = (directus, collection, sourceFile) => __awaiter(void 0, void 0, void 0, function* () {
     (0, logger_1.log)(`Importing default preset for ${collection} from ${sourceFile}`, logger_1.Level.INFO);

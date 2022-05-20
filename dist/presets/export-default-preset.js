@@ -22,7 +22,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportDefaultPreset = void 0;
 const fs_1 = require("fs");
-const logger_1 = require("./logger");
+const logger_1 = require("../utils/logger");
 const helper_1 = require("./helper");
 const exportDefaultPreset = (directus, collection, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
     (0, logger_1.log)(`Exporting default preset for collection ${collection}`, logger_1.Level.INFO);
