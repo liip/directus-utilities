@@ -1,10 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadAndReplaceImages = exports.uploadImage = exports.seedWithImages = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
+exports.uploadAndReplaceImages = exports.uploadImage = exports.seedWithImages = exports.importPublicPermissions = exports.exportPublicPermissions = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
 var export_default_preset_1 = require("./presets/export-default-preset");
 Object.defineProperty(exports, "exportDefaultPreset", { enumerable: true, get: function () { return export_default_preset_1.exportDefaultPreset; } });
 var import_default_preset_1 = require("./presets/import-default-preset");
 Object.defineProperty(exports, "importDefaultPreset", { enumerable: true, get: function () { return import_default_preset_1.importDefaultPreset; } });
+var export_public_permissions_1 = require("./permissions/export-public-permissions");
+Object.defineProperty(exports, "exportPublicPermissions", { enumerable: true, get: function () { return export_public_permissions_1.exportPublicPermissions; } });
+var import_public_permissions_1 = require("./permissions/import-public-permissions");
+Object.defineProperty(exports, "importPublicPermissions", { enumerable: true, get: function () { return import_public_permissions_1.importPublicPermissions; } });
 var seed_1 = require("./seed/seed");
 Object.defineProperty(exports, "seedWithImages", { enumerable: true, get: function () { return seed_1.seedWithImages; } });
 var helper_1 = require("./seed/helper");
