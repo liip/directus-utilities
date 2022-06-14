@@ -14,6 +14,15 @@ const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
 const helper_1 = require("./helper");
 const importDefaultPreset = (directus, collection, sourceFile) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!directus) {
+        (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);
+    }
+    if (!collection) {
+        (0, logger_1.log)('collection missing. Please provide it when calling the function.', logger_1.Level.ERROR);
+    }
+    if (!sourceFile) {
+        (0, logger_1.log)('sourceFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
+    }
     (0, logger_1.log)(`Importing default preset for ${collection} from ${sourceFile}`, logger_1.Level.INFO);
     try {
         const presetBuffer = (0, fs_1.readFileSync)(sourceFile);
@@ -24,12 +33,12 @@ const importDefaultPreset = (directus, collection, sourceFile) => __awaiter(void
                 // updating existing preset
                 (0, logger_1.log)(`Updating existing preset for ${collection}`, logger_1.Level.INFO);
                 yield directus.presets.updateOne(existingPreset.id, preset);
-                (0, logger_1.log)(`Sucessfully updated existing default preset (id: ${existingPreset.id}) for ${collection}`, logger_1.Level.SUCCESS);
+                (0, logger_1.log)(`Successfully updated existing default preset (id: ${existingPreset.id}) for ${collection}`, logger_1.Level.SUCCESS);
             }
             else {
                 (0, logger_1.log)(`Creating new preset for ${collection}`, logger_1.Level.INFO);
                 const newPreset = yield directus.presets.createOne(preset);
-                (0, logger_1.log)(`Sucessfully created default preset (id: ${newPreset === null || newPreset === void 0 ? void 0 : newPreset.id}) for ${collection}`, logger_1.Level.SUCCESS);
+                (0, logger_1.log)(`Successfully created default preset (id: ${newPreset === null || newPreset === void 0 ? void 0 : newPreset.id}) for ${collection}`, logger_1.Level.SUCCESS);
             }
         }
         catch (error) {

@@ -8,6 +8,25 @@ export const exportDefaultPreset = async (
   collection: string,
   targetFile: string
 ) => {
+  if (!directus) {
+    log(
+      'directus instance missing. Please provide it when calling the function.',
+      Level.ERROR
+    );
+  }
+  if (!collection) {
+    log(
+      'collection missing. Please provide it when calling the function.',
+      Level.ERROR
+    );
+  }
+  if (!targetFile) {
+    log(
+      'targetFile missing. Please provide it when calling the function.',
+      Level.ERROR
+    );
+  }
+
   log(`Exporting default preset for collection ${collection}`, Level.INFO);
   try {
     const preset = await getDefaultPresetForCollection(directus, collection);
@@ -21,7 +40,7 @@ export const exportDefaultPreset = async (
       try {
         writeFileSync(targetFile, JSON.stringify(presetWithoutId, null, 2));
         log(
-          `Sucessfully exported default preset to ${targetFile}`,
+          `Successfully exported default preset to ${targetFile}`,
           Level.SUCCESS
         );
       } catch (error) {

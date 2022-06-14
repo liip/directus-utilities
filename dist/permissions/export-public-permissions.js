@@ -20,34 +20,35 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.exportDefaultPreset = void 0;
+exports.exportPublicPermissions = void 0;
 const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
 const helper_1 = require("./helper");
-const exportDefaultPreset = (directus, collection, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
+const exportPublicPermissions = (directus, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
     if (!directus) {
         (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);
-    }
-    if (!collection) {
-        (0, logger_1.log)('collection missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
     if (!targetFile) {
         (0, logger_1.log)('targetFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
-    (0, logger_1.log)(`Exporting default preset for collection ${collection}`, logger_1.Level.INFO);
+    (0, logger_1.log)('Exporting public permissions', logger_1.Level.INFO);
     try {
-        const preset = yield (0, helper_1.getDefaultPresetForCollection)(directus, collection);
-        if (!preset) {
-            (0, logger_1.log)(`Default preset not found for ${collection}`, logger_1.Level.WARN);
+        const permissions = yield (0, helper_1.getPublicPermissions)(directus);
+        if (!permissions) {
+            (0, logger_1.log)('No public permissions found', logger_1.Level.WARN);
             return;
         }
         else {
-            // Remove id column from presets
+            // Remove id column from permission
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { id } = preset, presetWithoutId = __rest(preset, ["id"]);
+            const permissionsWithoutId = permissions.map((permission) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { id } = permission, permissionWithoutId = __rest(permission, ["id"]);
+                return permissionWithoutId;
+            });
             try {
-                (0, fs_1.writeFileSync)(targetFile, JSON.stringify(presetWithoutId, null, 2));
-                (0, logger_1.log)(`Successfully exported default preset to ${targetFile}`, logger_1.Level.SUCCESS);
+                (0, fs_1.writeFileSync)(targetFile, JSON.stringify(permissionsWithoutId, null, 2));
+                (0, logger_1.log)('Successfully exported public permissions', logger_1.Level.SUCCESS);
             }
             catch (error) {
                 (0, logger_1.log)(`Error while writing ${targetFile}: ${error}`, logger_1.Level.ERROR);
@@ -55,7 +56,7 @@ const exportDefaultPreset = (directus, collection, targetFile) => __awaiter(void
         }
     }
     catch (error) {
-        (0, logger_1.log)(`Failed to export default preset: ${error}`, logger_1.Level.ERROR);
+        (0, logger_1.log)(`Failed to export public permission: ${error}`, logger_1.Level.ERROR);
     }
 });
-exports.exportDefaultPreset = exportDefaultPreset;
+exports.exportPublicPermissions = exportPublicPermissions;
