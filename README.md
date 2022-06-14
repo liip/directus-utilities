@@ -25,6 +25,27 @@ If there is already a default preset for the given collection it will be updated
 * **collection** (`string`): Name of the collection.
 * **sourceFile** (`string`): Filename of the previously exported JSON file.
 
+### `exportPublicPermissions`
+
+Exports public permissions for all available user-defined collections to a JSON file.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **targetFile** (`string`): Target filename (incl. path) where permissions should be exported.
+
+### `importPublicPermissions`
+
+Imports public permissions from a JSON file.
+Creates a new permission entry for a collection which didn't have a public permission yet.
+Updates an existing permission for a collection when there is already a public permission defined.
+Deletes public permissions for collections which aren't available in the JSON file anymore.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **sourceFile** (`string`): Filename of the previously exported JSON file.
+
 ## Usage
 
 ### How to create an authenticated directus instance
@@ -45,10 +66,10 @@ If you want to use email and password. You should remove the staticToken above a
 await directus.auth.login({ email, password })
 ```
 
-### Examples
+### Examples
 
 ```js
-// Export
+// Export default preset
 const { Directus } = require('@directus/sdk');
 const { exportDefaultPreset } = require('../directus-utilities/dist/index.js');
 
@@ -68,7 +89,7 @@ run().then(() => {
 ```
 
 ```js
-// Import
+// Import default preset
 const { Directus } = require('@directus/sdk');
 const { importDefaultPreset } = require('../directus-utilities/dist/index.js');
 
