@@ -24,6 +24,12 @@ const exportPermissionsByRolename = (directus, rolename, targetFile) => __awaite
         (0, logger_1.log)('targetFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
     (0, logger_1.log)(`Exporting permissions for role ${rolename}`, logger_1.Level.INFO);
-    yield (0, export_permissions_by_query_1.exportPermissionsByQuery)(directus, (0, helper_1.getPermissionsByRolenameQuery)(rolename), targetFile);
+    const roleId = yield (0, helper_1.getRoleIdByName)(directus, rolename);
+    if (roleId) {
+        yield (0, export_permissions_by_query_1.exportPermissionsByQuery)(directus, (0, helper_1.getPermissionsByRoleIdQuery)(roleId), targetFile);
+    }
+    else {
+        (0, logger_1.log)(`Role with name ${rolename} not found`, logger_1.Level.ERROR);
+    }
 });
 exports.exportPermissionsByRolename = exportPermissionsByRolename;

@@ -1,3 +1,4 @@
+import { IDirectus, TypeMap } from '@directus/sdk';
 export declare const publicPermissionsQuery: {
     limit: number;
     filter: {
@@ -6,13 +7,12 @@ export declare const publicPermissionsQuery: {
         };
     };
 };
-export declare const getPermissionsByRolenameQuery: (rolename: string) => {
+export declare const getRoleIdByName: (directus: IDirectus<TypeMap>, rolename: string) => Promise<any>;
+export declare const getPermissionsByRoleIdQuery: (roleId: string) => {
     limit: number;
     filter: {
         role: {
-            name: {
-                _eq: string;
-            };
+            _eq: string;
         };
     };
 };

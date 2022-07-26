@@ -1,6 +1,6 @@
 import { IDirectus, TypeMap } from '@directus/sdk';
 import { log, Level } from '../utils/logger';
-import { getPermissionsByRolenameQuery } from './helper';
+import { getPermissionsByRoleIdQuery, getRoleIdByName } from './helper';
 import { importPermissionsByQuery } from './import-permissions-by-query';
 
 export const importPermissionsByRolename = async (
@@ -28,9 +28,15 @@ export const importPermissionsByRolename = async (
   }
 
   log(`Importing permissions for role ${rolename}`, Level.INFO);
-  await importPermissionsByQuery(
-    directus,
-    getPermissionsByRolenameQuery(rolename),
-    sourceFile
-  );
+
+  const roleId = await getRoleIdByName(directus, rolename);
+  if (roleId) {
+    await importPermissionsByQuery(
+      directus,
+      getPermissionsByRoleIdQuery(roleId),
+      sourceFile
+    );
+  } else {
+    log(`Role with name ${rolename} not found`, Level.ERROR);
+  }
 };
