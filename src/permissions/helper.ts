@@ -6,3 +6,14 @@ export const publicPermissionsQuery = {
     },
   },
 };
+
+export const getPermissionsByRolenameQuery = (rolename: string) => ({
+  limit: -1,
+  filter: {
+    role: {
+      name: {
+        _eq: rolename,
+      },
+    },
+  },
+});

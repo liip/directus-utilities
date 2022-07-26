@@ -6,3 +6,13 @@ export declare const publicPermissionsQuery: {
         };
     };
 };
+export declare const getPermissionsByRolenameQuery: (rolename: string) => {
+    limit: number;
+    filter: {
+        role: {
+            name: {
+                _eq: string;
+            };
+        };
+    };
+};
