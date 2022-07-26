@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.importPublicPermissions = void 0;
-const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
 const helper_1 = require("./helper");
+const import_permissions_by_query_1 = require("./import-permissions-by-query");
 const importPublicPermissions = (directus, sourceFile) => __awaiter(void 0, void 0, void 0, function* () {
     if (!directus) {
         (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);
@@ -21,44 +21,6 @@ const importPublicPermissions = (directus, sourceFile) => __awaiter(void 0, void
         (0, logger_1.log)('sourceFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
     (0, logger_1.log)(`Importing public permissions from ${sourceFile}`, logger_1.Level.INFO);
-    try {
-        const permissionsBuffer = (0, fs_1.readFileSync)(sourceFile);
-        const permissionsToImport = JSON.parse(permissionsBuffer.toString());
-        try {
-            const existingPermissions = yield (0, helper_1.getPublicPermissions)(directus);
-            const updatedPermissions = [];
-            for (const permissionToImport of permissionsToImport) {
-                const existingPermission = existingPermissions === null || existingPermissions === void 0 ? void 0 : existingPermissions.find((permission) => permission.collection === permissionToImport.collection);
-                if (existingPermission) {
-                    // updating existing permission
-                    (0, logger_1.log)(`Updating existing permission for ${permissionToImport.collection}`, logger_1.Level.INFO);
-                    yield directus.permissions.updateOne(existingPermission.id, permissionToImport);
-                    updatedPermissions.push(existingPermission);
-                    (0, logger_1.log)(`Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection}`, logger_1.Level.SUCCESS);
-                }
-                else {
-                    (0, logger_1.log)(`Creating new permission for ${permissionToImport.collection}`, logger_1.Level.INFO);
-                    const newPermission = yield directus.permissions.createOne(permissionToImport);
-                    (0, logger_1.log)(`Successfully created permission (id: ${newPermission === null || newPermission === void 0 ? void 0 : newPermission.id}) for ${permissionToImport.collection}`, logger_1.Level.SUCCESS);
-                }
-            }
-            // Delete permissions which don't exist anymore
-            const permissionsToRemove = existingPermissions === null || existingPermissions === void 0 ? void 0 : existingPermissions.filter((existingPermission) => !updatedPermissions.some((updatedPermission) => existingPermission.id === updatedPermission.id));
-            if (permissionsToRemove && permissionsToRemove.length > 0) {
-                const permissionsToRemoveIds = permissionsToRemove.map((permissionToRemove) => permissionToRemove.id);
-                (0, logger_1.log)(`Removing outdated permissions [${permissionsToRemove
-                    .map((permissionToRemove) => `${permissionToRemove.collection} (id: ${permissionToRemove.id})`)
-                    .join(', ')}]`, logger_1.Level.INFO);
-                yield directus.permissions.deleteMany(permissionsToRemoveIds);
-                (0, logger_1.log)('Successfully removed outdated permissions', logger_1.Level.SUCCESS);
-            }
-        }
-        catch (error) {
-            (0, logger_1.log)(`Failed to import permissions: ${error}`, logger_1.Level.ERROR);
-        }
-    }
-    catch (error) {
-        (0, logger_1.log)(`Error while reading ${sourceFile}: ${error}`, logger_1.Level.ERROR);
-    }
+    yield (0, import_permissions_by_query_1.importPermissionsByQuery)(directus, helper_1.publicPermissionsQuery, sourceFile);
 });
 exports.importPublicPermissions = importPublicPermissions;

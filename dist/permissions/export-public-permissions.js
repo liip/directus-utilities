@@ -8,21 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportPublicPermissions = void 0;
-const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
+const export_permissions_by_query_1 = require("./export-permissions-by-query");
 const helper_1 = require("./helper");
 const exportPublicPermissions = (directus, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
     if (!directus) {
@@ -32,31 +21,6 @@ const exportPublicPermissions = (directus, targetFile) => __awaiter(void 0, void
         (0, logger_1.log)('targetFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
     (0, logger_1.log)('Exporting public permissions', logger_1.Level.INFO);
-    try {
-        const permissions = yield (0, helper_1.getPublicPermissions)(directus);
-        if (!permissions) {
-            (0, logger_1.log)('No public permissions found', logger_1.Level.WARN);
-            return;
-        }
-        else {
-            // Remove id column from permission
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const permissionsWithoutId = permissions.map((permission) => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const { id } = permission, permissionWithoutId = __rest(permission, ["id"]);
-                return permissionWithoutId;
-            });
-            try {
-                (0, fs_1.writeFileSync)(targetFile, JSON.stringify(permissionsWithoutId, null, 2));
-                (0, logger_1.log)('Successfully exported public permissions', logger_1.Level.SUCCESS);
-            }
-            catch (error) {
-                (0, logger_1.log)(`Error while writing ${targetFile}: ${error}`, logger_1.Level.ERROR);
-            }
-        }
-    }
-    catch (error) {
-        (0, logger_1.log)(`Failed to export public permission: ${error}`, logger_1.Level.ERROR);
-    }
+    yield (0, export_permissions_by_query_1.exportPermissionsByQuery)(directus, helper_1.publicPermissionsQuery, targetFile);
 });
 exports.exportPublicPermissions = exportPublicPermissions;

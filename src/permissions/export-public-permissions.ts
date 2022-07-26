@@ -1,7 +1,7 @@
 import { IDirectus, TypeMap } from '@directus/sdk';
-import { writeFileSync } from 'fs';
 import { log, Level } from '../utils/logger';
-import { getPublicPermissions } from './helper';
+import { exportPermissionsByQuery } from './export-permissions-by-query';
+import { publicPermissionsQuery } from './helper';
 
 export const exportPublicPermissions = async (
   directus: IDirectus<TypeMap>,
@@ -21,30 +21,5 @@ export const exportPublicPermissions = async (
   }
 
   log('Exporting public permissions', Level.INFO);
-  try {
-    const permissions = await getPublicPermissions(directus);
-    if (!permissions) {
-      log('No public permissions found', Level.WARN);
-      return;
-    } else {
-      // Remove id column from permission
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const permissionsWithoutId = permissions.map((permission) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...permissionWithoutId } = permission;
-        return permissionWithoutId;
-      });
-      try {
-        writeFileSync(
-          targetFile,
-          JSON.stringify(permissionsWithoutId, null, 2)
-        );
-        log('Successfully exported public permissions', Level.SUCCESS);
-      } catch (error) {
-        log(`Error while writing ${targetFile}: ${error}`, Level.ERROR);
-      }
-    }
-  } catch (error) {
-    log(`Failed to export public permission: ${error}`, Level.ERROR);
-  }
+  await exportPermissionsByQuery(directus, publicPermissionsQuery, targetFile);
 };

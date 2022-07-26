@@ -1,2 +1,8 @@
-import { IDirectus, TypeMap } from '@directus/sdk';
-export declare const getPublicPermissions: (directus: IDirectus<TypeMap>) => Promise<import("@directus/sdk").PartialItem<import("@directus/sdk").DefaultType>[] | null>;
+export declare const publicPermissionsQuery: {
+    limit: number;
+    filter: {
+        role: {
+            _null: boolean;
+        };
+    };
+};
