@@ -9,9 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedWithImages = void 0;
+exports.seedWithImages = exports.seedSingletonWithImages = void 0;
 const helper_1 = require("./helper");
 const logger_1 = require("../utils/logger");
+const seedSingletonWithImages = (directus, collection, data, options) => __awaiter(void 0, void 0, void 0, function* () {
+    const [dataWithImages] = yield (0, helper_1.uploadAndReplaceImages)(directus, [data], options.fileRoot);
+    (0, logger_1.log)(`Updating singleton ${collection}.`, logger_1.Level.INFO);
+    yield directus.singleton(collection).update(dataWithImages);
+    (0, logger_1.log)(`Successfully updated singleton ${collection}.`, logger_1.Level.SUCCESS);
+});
+exports.seedSingletonWithImages = seedSingletonWithImages;
 const seedWithImages = (directus, collection, items, options) => __awaiter(void 0, void 0, void 0, function* () {
     if (options.clearTableEntries) {
         const existingItems = yield directus

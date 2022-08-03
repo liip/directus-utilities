@@ -3,9 +3,29 @@ import { IDirectus, TypeMap } from '@directus/sdk';
 import { Level, log } from '../utils/logger';
 
 interface SeedOptions {
-  clearTableEntries: boolean;
-  fileRoot: string;
+  clearTableEntries?: boolean;
+  fileRoot?: string;
 }
+
+interface SeedSingletonOptions {
+  fileRoot?: string;
+}
+
+export const seedSingletonWithImages = async <T extends string>(
+  directus: IDirectus<TypeMap>,
+  collection: T,
+  data: object,
+  options: SeedSingletonOptions
+) => {
+  const [dataWithImages] = await uploadAndReplaceImages(
+    directus,
+    [data],
+    options.fileRoot
+  );
+  log(`Updating singleton ${collection}.`, Level.INFO);
+  await directus.singleton(collection).update(dataWithImages);
+  log(`Successfully updated singleton ${collection}.`, Level.SUCCESS);
+};
 
 export const seedWithImages = async <T extends string>(
   directus: IDirectus<TypeMap>,
