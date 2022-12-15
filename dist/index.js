@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadAndReplaceImages = exports.uploadImage = exports.seedSingletonWithImages = exports.seedWithImages = exports.importPublicPermissions = exports.exportPublicPermissions = exports.importPermissionsByQuery = exports.exportPermissionsByQuery = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
+exports.uploadAndReplaceImages = exports.uploadImage = exports.seedSingletonWithImages = exports.seedWithImages = exports.importPermissionsByRolename = exports.exportPermissionsByRolename = exports.importPublicPermissions = exports.exportPublicPermissions = exports.importPermissionsByQuery = exports.exportPermissionsByQuery = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
 var export_default_preset_1 = require("./presets/export-default-preset");
 Object.defineProperty(exports, "exportDefaultPreset", { enumerable: true, get: function () { return export_default_preset_1.exportDefaultPreset; } });
 var import_default_preset_1 = require("./presets/import-default-preset");
@@ -13,9 +13,10 @@ var export_public_permissions_1 = require("./permissions/export-public-permissio
 Object.defineProperty(exports, "exportPublicPermissions", { enumerable: true, get: function () { return export_public_permissions_1.exportPublicPermissions; } });
 var import_public_permissions_1 = require("./permissions/import-public-permissions");
 Object.defineProperty(exports, "importPublicPermissions", { enumerable: true, get: function () { return import_public_permissions_1.importPublicPermissions; } });
-// TODO fix permissions by rolename scripts
-//export { exportPermissionsByRolename } from './permissions/export-permissions-by-rolename';
-//export { importPermissionsByRolename } from './permissions/import-permissions-by-rolename';
+var export_permissions_by_rolename_1 = require("./permissions/export-permissions-by-rolename");
+Object.defineProperty(exports, "exportPermissionsByRolename", { enumerable: true, get: function () { return export_permissions_by_rolename_1.exportPermissionsByRolename; } });
+var import_permissions_by_rolename_1 = require("./permissions/import-permissions-by-rolename");
+Object.defineProperty(exports, "importPermissionsByRolename", { enumerable: true, get: function () { return import_permissions_by_rolename_1.importPermissionsByRolename; } });
 var seed_1 = require("./seed/seed");
 Object.defineProperty(exports, "seedWithImages", { enumerable: true, get: function () { return seed_1.seedWithImages; } });
 Object.defineProperty(exports, "seedSingletonWithImages", { enumerable: true, get: function () { return seed_1.seedSingletonWithImages; } });

@@ -42,12 +42,13 @@ export const importPermissionsByQuery = async (
       for (const permissionToImport of permissionsToImport) {
         const existingPermission = existingPermissions?.find(
           (permission) =>
-            permission.collection === permissionToImport.collection
+            permission.collection === permissionToImport.collection &&
+            permission.action === permissionToImport.action
         );
         if (existingPermission) {
           // updating existing permission
           log(
-            `Updating existing permission for ${permissionToImport.collection}`,
+            `Updating existing permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`,
             Level.INFO
           );
           await directus.permissions.updateOne(
@@ -56,19 +57,19 @@ export const importPermissionsByQuery = async (
           );
           updatedPermissions.push(existingPermission);
           log(
-            `Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection}`,
+            `Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`,
             Level.SUCCESS
           );
         } else {
           log(
-            `Creating new permission for ${permissionToImport.collection}`,
+            `Creating new permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`,
             Level.INFO
           );
           const newPermission = await directus.permissions.createOne(
             permissionToImport
           );
           log(
-            `Successfully created permission (id: ${newPermission?.id}) for ${permissionToImport.collection}`,
+            `Successfully created permission (id: ${newPermission?.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`,
             Level.SUCCESS
           );
         }
@@ -90,7 +91,7 @@ export const importPermissionsByQuery = async (
           `Removing outdated permissions [${permissionsToRemove
             .map(
               (permissionToRemove) =>
-                `${permissionToRemove.collection} (id: ${permissionToRemove.id})`
+                `${permissionToRemove.collection} (action: ${permissionToRemove.action}) (id: ${permissionToRemove.id})`
             )
             .join(', ')}]`,
           Level.INFO

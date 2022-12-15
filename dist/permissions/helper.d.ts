@@ -11,8 +11,6 @@ export declare const getRoleIdByName: (directus: IDirectus<TypeMap>, rolename: s
 export declare const getPermissionsByRoleIdQuery: (roleId: string) => {
     limit: number;
     filter: {
-        role: {
-            _eq: string;
-        };
+        role: string;
     };
 };
