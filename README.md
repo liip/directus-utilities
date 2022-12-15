@@ -1,5 +1,7 @@
 # Utility library for directus
 
+[![lint-test-deploy](https://github.com/liip/directus-utilities/actions/workflows/lint-test-deploy.yml/badge.svg)](https://github.com/liip/directus-utilities/actions/workflows/lint-test-deploy.yml)
+
 Brings some missing utility functions for directus.
 
 ## Available functions
