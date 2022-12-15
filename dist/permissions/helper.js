@@ -36,9 +36,7 @@ exports.getRoleIdByName = getRoleIdByName;
 const getPermissionsByRoleIdQuery = (roleId) => ({
     limit: -1,
     filter: {
-        role: {
-            _eq: roleId,
-        },
+        role: roleId,
     },
 });
 exports.getPermissionsByRoleIdQuery = getPermissionsByRoleIdQuery;

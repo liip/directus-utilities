@@ -34,18 +34,19 @@ const importPermissionsByQuery = (directus, query, sourceFile) => __awaiter(void
                 : [];
             const updatedPermissions = [];
             for (const permissionToImport of permissionsToImport) {
-                const existingPermission = existingPermissions === null || existingPermissions === void 0 ? void 0 : existingPermissions.find((permission) => permission.collection === permissionToImport.collection);
+                const existingPermission = existingPermissions === null || existingPermissions === void 0 ? void 0 : existingPermissions.find((permission) => permission.collection === permissionToImport.collection &&
+                    permission.action === permissionToImport.action);
                 if (existingPermission) {
                     // updating existing permission
-                    (0, logger_1.log)(`Updating existing permission for ${permissionToImport.collection}`, logger_1.Level.INFO);
+                    (0, logger_1.log)(`Updating existing permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.INFO);
                     yield directus.permissions.updateOne(existingPermission.id, permissionToImport);
                     updatedPermissions.push(existingPermission);
-                    (0, logger_1.log)(`Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection}`, logger_1.Level.SUCCESS);
+                    (0, logger_1.log)(`Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.SUCCESS);
                 }
                 else {
-                    (0, logger_1.log)(`Creating new permission for ${permissionToImport.collection}`, logger_1.Level.INFO);
+                    (0, logger_1.log)(`Creating new permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.INFO);
                     const newPermission = yield directus.permissions.createOne(permissionToImport);
-                    (0, logger_1.log)(`Successfully created permission (id: ${newPermission === null || newPermission === void 0 ? void 0 : newPermission.id}) for ${permissionToImport.collection}`, logger_1.Level.SUCCESS);
+                    (0, logger_1.log)(`Successfully created permission (id: ${newPermission === null || newPermission === void 0 ? void 0 : newPermission.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.SUCCESS);
                 }
             }
             // Delete permissions which don't exist anymore
@@ -53,7 +54,7 @@ const importPermissionsByQuery = (directus, query, sourceFile) => __awaiter(void
             if (permissionsToRemove && permissionsToRemove.length > 0) {
                 const permissionsToRemoveIds = permissionsToRemove.map((permissionToRemove) => permissionToRemove.id);
                 (0, logger_1.log)(`Removing outdated permissions [${permissionsToRemove
-                    .map((permissionToRemove) => `${permissionToRemove.collection} (id: ${permissionToRemove.id})`)
+                    .map((permissionToRemove) => `${permissionToRemove.collection} (action: ${permissionToRemove.action}) (id: ${permissionToRemove.id})`)
                     .join(', ')}]`, logger_1.Level.INFO);
                 yield directus.permissions.deleteMany(permissionsToRemoveIds);
                 (0, logger_1.log)('Successfully removed outdated permissions', logger_1.Level.SUCCESS);

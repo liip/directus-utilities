@@ -30,8 +30,6 @@ export const getRoleIdByName = async (
 export const getPermissionsByRoleIdQuery = (roleId: string) => ({
   limit: -1,
   filter: {
-    role: {
-      _eq: roleId,
-    },
+    role: roleId,
   },
 });
