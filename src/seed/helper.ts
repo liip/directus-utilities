@@ -11,7 +11,7 @@ export const isFile = (value: any) =>
 export async function uploadImage(
   directus: IDirectus<TypeMap>,
   imagePath: string
-): Promise<string> {
+): Promise<string | undefined> {
   const form = new FormData();
 
   form.append('file', fs.createReadStream(imagePath));

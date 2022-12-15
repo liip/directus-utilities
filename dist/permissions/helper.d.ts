@@ -7,7 +7,7 @@ export declare const publicPermissionsQuery: {
         };
     };
 };
-export declare const getRoleIdByName: (directus: IDirectus<TypeMap>, rolename: string) => Promise<any>;
+export declare const getRoleIdByName: (directus: IDirectus<TypeMap>, rolename: string) => Promise<string | null>;
 export declare const getPermissionsByRoleIdQuery: (roleId: string) => {
     limit: number;
     filter: {

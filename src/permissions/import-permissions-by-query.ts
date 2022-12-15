@@ -1,4 +1,4 @@
-import { DefaultType, IDirectus, PartialItem, TypeMap } from '@directus/sdk';
+import { IDirectus, TypeMap } from '@directus/sdk';
 import { readFileSync } from 'fs';
 import { log, Level } from '../utils/logger';
 
@@ -39,7 +39,7 @@ export const importPermissionsByQuery = async (
         existingPermissionsResponse.data.length > 0
           ? existingPermissionsResponse?.data
           : [];
-      const updatedPermissions: PartialItem<DefaultType>[] = [];
+      const updatedPermissions: any[] = [];
       for (const permissionToImport of permissionsToImport) {
         const permissionToImportWithRole = {
           ...permissionToImport,
