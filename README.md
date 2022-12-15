@@ -27,7 +27,7 @@ If there is already a default preset for the given collection it will be updated
 
 ### `exportPublicPermissions`
 
-Exports public permissions for all available user-defined collections to a JSON file.
+Exports public permissions to a JSON file.
 
 #### Params
 
@@ -44,6 +44,29 @@ Deletes public permissions for collections which aren't available in the JSON fi
 #### Params
 
 * **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **sourceFile** (`string`): Filename of the previously exported JSON file.
+
+### `exportPermissionsByRolename`
+
+Exports permissions for a given role  to a JSON file.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **rolename** (`string`): Name of the role.
+* **targetFile** (`string`): Target filename (incl. path) where permissions should be exported.
+
+### `importPermissionsByRolename`
+
+Imports permissions for a given role from a JSON file.
+Creates a new permission entry if the role didn't have that permission yet.
+Updates an existing permission if the role already had such a permission defined.
+Deletes permissions for the role if they aren't available in the JSON file anymore.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **rolename** (`string`): Name of the role.
 * **sourceFile** (`string`): Filename of the previously exported JSON file.
 
 ## Usage
