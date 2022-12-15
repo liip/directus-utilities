@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.importPermissionsByQuery = void 0;
 const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
-const importPermissionsByQuery = (directus, query, sourceFile) => __awaiter(void 0, void 0, void 0, function* () {
+const importPermissionsByQuery = (directus, query, sourceFile, roleId) => __awaiter(void 0, void 0, void 0, function* () {
     if (!directus) {
         (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
@@ -34,18 +34,19 @@ const importPermissionsByQuery = (directus, query, sourceFile) => __awaiter(void
                 : [];
             const updatedPermissions = [];
             for (const permissionToImport of permissionsToImport) {
+                const permissionToImportWithRole = Object.assign(Object.assign({}, permissionToImport), { role: roleId });
                 const existingPermission = existingPermissions === null || existingPermissions === void 0 ? void 0 : existingPermissions.find((permission) => permission.collection === permissionToImport.collection &&
                     permission.action === permissionToImport.action);
                 if (existingPermission) {
                     // updating existing permission
                     (0, logger_1.log)(`Updating existing permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.INFO);
-                    yield directus.permissions.updateOne(existingPermission.id, permissionToImport);
+                    yield directus.permissions.updateOne(existingPermission.id, permissionToImportWithRole);
                     updatedPermissions.push(existingPermission);
                     (0, logger_1.log)(`Successfully updated existing permission (id: ${existingPermission.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.SUCCESS);
                 }
                 else {
                     (0, logger_1.log)(`Creating new permission for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.INFO);
-                    const newPermission = yield directus.permissions.createOne(permissionToImport);
+                    const newPermission = yield directus.permissions.createOne(permissionToImportWithRole);
                     (0, logger_1.log)(`Successfully created permission (id: ${newPermission === null || newPermission === void 0 ? void 0 : newPermission.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`, logger_1.Level.SUCCESS);
                 }
             }

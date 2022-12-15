@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportPermissionsByQuery = void 0;
 const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
-const exportPermissionsByQuery = (directus, query, targetFile, propertiesToRemove = ['id']) => __awaiter(void 0, void 0, void 0, function* () {
+const propertiesToRemove = ['id', 'role'];
+const exportPermissionsByQuery = (directus, query, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     if (!directus) {
         (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);

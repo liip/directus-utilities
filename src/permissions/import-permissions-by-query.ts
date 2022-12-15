@@ -5,7 +5,8 @@ import { log, Level } from '../utils/logger';
 export const importPermissionsByQuery = async (
   directus: IDirectus<TypeMap>,
   query: any,
-  sourceFile: string
+  sourceFile: string,
+  roleId: string | null
 ) => {
   if (!directus) {
     log(
@@ -40,6 +41,10 @@ export const importPermissionsByQuery = async (
           : [];
       const updatedPermissions: PartialItem<DefaultType>[] = [];
       for (const permissionToImport of permissionsToImport) {
+        const permissionToImportWithRole = {
+          ...permissionToImport,
+          role: roleId,
+        };
         const existingPermission = existingPermissions?.find(
           (permission) =>
             permission.collection === permissionToImport.collection &&
@@ -53,7 +58,7 @@ export const importPermissionsByQuery = async (
           );
           await directus.permissions.updateOne(
             existingPermission.id,
-            permissionToImport
+            permissionToImportWithRole
           );
           updatedPermissions.push(existingPermission);
           log(
@@ -66,7 +71,7 @@ export const importPermissionsByQuery = async (
             Level.INFO
           );
           const newPermission = await directus.permissions.createOne(
-            permissionToImport
+            permissionToImportWithRole
           );
           log(
             `Successfully created permission (id: ${newPermission?.id}) for ${permissionToImport.collection} (action: ${permissionToImport.action})`,

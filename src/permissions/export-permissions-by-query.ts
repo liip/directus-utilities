@@ -2,11 +2,12 @@ import { IDirectus, TypeMap } from '@directus/sdk';
 import { writeFileSync } from 'fs';
 import { log, Level } from '../utils/logger';
 
+const propertiesToRemove = ['id', 'role'];
+
 export const exportPermissionsByQuery = async (
   directus: IDirectus<TypeMap>,
   query: any,
-  targetFile: string,
-  propertiesToRemove: string[] = ['id']
+  targetFile: string
 ) => {
   if (!directus) {
     log(

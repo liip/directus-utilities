@@ -34,7 +34,8 @@ export const importPermissionsByRolename = async (
     await importPermissionsByQuery(
       directus,
       getPermissionsByRoleIdQuery(roleId),
-      sourceFile
+      sourceFile,
+      roleId
     );
   } else {
     log(`Role with name ${rolename} not found`, Level.ERROR);

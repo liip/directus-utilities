@@ -26,7 +26,7 @@ const importPermissionsByRolename = (directus, rolename, sourceFile) => __awaite
     (0, logger_1.log)(`Importing permissions for role ${rolename}`, logger_1.Level.INFO);
     const roleId = yield (0, helper_1.getRoleIdByName)(directus, rolename);
     if (roleId) {
-        yield (0, import_permissions_by_query_1.importPermissionsByQuery)(directus, (0, helper_1.getPermissionsByRoleIdQuery)(roleId), sourceFile);
+        yield (0, import_permissions_by_query_1.importPermissionsByQuery)(directus, (0, helper_1.getPermissionsByRoleIdQuery)(roleId), sourceFile, roleId);
     }
     else {
         (0, logger_1.log)(`Role with name ${rolename} not found`, logger_1.Level.ERROR);

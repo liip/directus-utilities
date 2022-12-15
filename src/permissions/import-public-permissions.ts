@@ -21,5 +21,10 @@ export const importPublicPermissions = async (
   }
 
   log(`Importing public permissions from ${sourceFile}`, Level.INFO);
-  await importPermissionsByQuery(directus, publicPermissionsQuery, sourceFile);
+  await importPermissionsByQuery(
+    directus,
+    publicPermissionsQuery,
+    sourceFile,
+    null
+  );
 };

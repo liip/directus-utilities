@@ -21,6 +21,6 @@ const importPublicPermissions = (directus, sourceFile) => __awaiter(void 0, void
         (0, logger_1.log)('sourceFile missing. Please provide it when calling the function.', logger_1.Level.ERROR);
     }
     (0, logger_1.log)(`Importing public permissions from ${sourceFile}`, logger_1.Level.INFO);
-    yield (0, import_permissions_by_query_1.importPermissionsByQuery)(directus, helper_1.publicPermissionsQuery, sourceFile);
+    yield (0, import_permissions_by_query_1.importPermissionsByQuery)(directus, helper_1.publicPermissionsQuery, sourceFile, null);
 });
 exports.importPublicPermissions = importPublicPermissions;
