@@ -8,22 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportPermissionsByQuery = void 0;
 const fs_1 = require("fs");
 const logger_1 = require("../utils/logger");
-const exportPermissionsByQuery = (directus, query, targetFile) => __awaiter(void 0, void 0, void 0, function* () {
+const exportPermissionsByQuery = (directus, query, targetFile, propertiesToRemove = ['id']) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     if (!directus) {
         (0, logger_1.log)('directus instance missing. Please provide it when calling the function.', logger_1.Level.ERROR);
@@ -45,15 +34,16 @@ const exportPermissionsByQuery = (directus, query, targetFile) => __awaiter(void
             return;
         }
         else {
-            // Remove id column from permission
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const permissionsWithoutId = permissions.map((permission) => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const { id } = permission, permissionWithoutId = __rest(permission, ["id"]);
-                return permissionWithoutId;
+            // Remove unused properties from permission
+            const permissionsWithRemovedProperties = permissions.map((permission) => {
+                const permissionWithRemovedProperties = Object.assign({}, permission);
+                propertiesToRemove.forEach((propertyToRemove) => {
+                    delete permissionWithRemovedProperties[propertyToRemove];
+                });
+                return permissionWithRemovedProperties;
             });
             try {
-                (0, fs_1.writeFileSync)(targetFile, JSON.stringify(permissionsWithoutId, null, 2));
+                (0, fs_1.writeFileSync)(targetFile, JSON.stringify(permissionsWithRemovedProperties, null, 2));
                 (0, logger_1.log)('Successfully exported permissions', logger_1.Level.SUCCESS);
             }
             catch (error) {

@@ -5,7 +5,8 @@ import { log, Level } from '../utils/logger';
 export const exportPermissionsByQuery = async (
   directus: IDirectus<TypeMap>,
   query: any,
-  targetFile: string
+  targetFile: string,
+  propertiesToRemove: string[] = ['id']
 ) => {
   if (!directus) {
     log(
@@ -37,17 +38,18 @@ export const exportPermissionsByQuery = async (
       log('No permissions found', Level.WARN);
       return;
     } else {
-      // Remove id column from permission
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const permissionsWithoutId = permissions.map((permission) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...permissionWithoutId } = permission;
-        return permissionWithoutId;
+      // Remove unused properties from permission
+      const permissionsWithRemovedProperties = permissions.map((permission) => {
+        const permissionWithRemovedProperties = { ...permission };
+        propertiesToRemove.forEach((propertyToRemove) => {
+          delete permissionWithRemovedProperties[propertyToRemove];
+        });
+        return permissionWithRemovedProperties;
       });
       try {
         writeFileSync(
           targetFile,
-          JSON.stringify(permissionsWithoutId, null, 2)
+          JSON.stringify(permissionsWithRemovedProperties, null, 2)
         );
         log('Successfully exported permissions', Level.SUCCESS);
       } catch (error) {
