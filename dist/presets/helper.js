@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDefaultPresetForCollection = void 0;
+exports.getPresetForCollection = exports.getDefaultPresetForCollection = void 0;
 const getDefaultPresetForCollection = (directus, collection) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const presets = yield directus.presets.readByQuery({
@@ -29,3 +29,25 @@ const getDefaultPresetForCollection = (directus, collection) => __awaiter(void 0
     return presets.data && ((_a = presets.data) === null || _a === void 0 ? void 0 : _a.length) > 0 ? presets.data[0] : null;
 });
 exports.getDefaultPresetForCollection = getDefaultPresetForCollection;
+const getPresetForCollection = (directus, collection, preset) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
+    if (preset === 'default' || preset === null) {
+        return yield (0, exports.getDefaultPresetForCollection)(directus, collection);
+    }
+    const presets = yield directus.presets.readByQuery({
+        filter: {
+            collection: {
+                _eq: collection,
+            },
+            user: {
+                _null: true,
+            },
+            bookmark: {
+                _eq: preset,
+            },
+        },
+        limit: 1,
+    });
+    return presets.data && ((_b = presets.data) === null || _b === void 0 ? void 0 : _b.length) > 0 ? presets.data[0] : null;
+});
+exports.getPresetForCollection = getPresetForCollection;

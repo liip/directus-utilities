@@ -1,5 +1,7 @@
 export { exportDefaultPreset } from './presets/export-default-preset';
 export { importDefaultPreset } from './presets/import-default-preset';
+export { exportPreset } from './presets/export-preset';
+export { importPresets } from './presets/import-presets';
 export { exportPublicPermissions } from './permissions/export-public-permissions';
 export { importPublicPermissions } from './permissions/import-public-permissions';
 export { exportPermissionsByRolename } from './permissions/export-permissions-by-rolename';
