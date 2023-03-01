@@ -1,10 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadAndReplaceImages = exports.uploadImage = exports.seedSingletonWithImages = exports.seedWithImages = exports.importPermissionsByRolename = exports.exportPermissionsByRolename = exports.importPublicPermissions = exports.exportPublicPermissions = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
+exports.uploadAndReplaceImages = exports.uploadImage = exports.seedSingletonWithImages = exports.seedWithImages = exports.importPermissionsByRolename = exports.exportPermissionsByRolename = exports.importPublicPermissions = exports.exportPublicPermissions = exports.importPresets = exports.exportPreset = exports.importDefaultPreset = exports.exportDefaultPreset = void 0;
 var export_default_preset_1 = require("./presets/export-default-preset");
 Object.defineProperty(exports, "exportDefaultPreset", { enumerable: true, get: function () { return export_default_preset_1.exportDefaultPreset; } });
 var import_default_preset_1 = require("./presets/import-default-preset");
 Object.defineProperty(exports, "importDefaultPreset", { enumerable: true, get: function () { return import_default_preset_1.importDefaultPreset; } });
+var export_preset_1 = require("./presets/export-preset");
+Object.defineProperty(exports, "exportPreset", { enumerable: true, get: function () { return export_preset_1.exportPreset; } });
+var import_presets_1 = require("./presets/import-presets");
+Object.defineProperty(exports, "importPresets", { enumerable: true, get: function () { return import_presets_1.importPresets; } });
 var export_public_permissions_1 = require("./permissions/export-public-permissions");
 Object.defineProperty(exports, "exportPublicPermissions", { enumerable: true, get: function () { return export_public_permissions_1.exportPublicPermissions; } });
 var import_public_permissions_1 = require("./permissions/import-public-permissions");

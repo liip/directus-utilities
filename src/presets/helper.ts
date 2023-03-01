@@ -20,3 +20,29 @@ export const getDefaultPresetForCollection = async (
   });
   return presets.data && presets.data?.length > 0 ? presets.data[0] : null;
 };
+
+export const getPresetForCollection = async (
+  directus: IDirectus<TypeMap>,
+  collection: string,
+  preset: string,
+) => {
+  if (preset === 'default' || preset === null) {
+    return await getDefaultPresetForCollection(directus, collection);
+  }
+
+  const presets = await directus.presets.readByQuery({
+    filter: {
+      collection: {
+        _eq: collection,
+      },
+      user: {
+        _null: true,
+      },
+      bookmark: {
+        _eq: preset,
+      },
+    },
+    limit: 1,
+  });
+  return presets.data && presets.data?.length > 0 ? presets.data[0] : null;
+};

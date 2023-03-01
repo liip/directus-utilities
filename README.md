@@ -16,6 +16,17 @@ Exports default preset for given collection to a JSON file.
 * **collection** (`string`): Name of the collection.
 * **targetFile** (`string`): Target filename (incl. path) where preset should be exported.
 
+### `exportPreset`
+
+Exports a preset for given collection to a JSON file.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **collection** (`string`): Name of the collection.
+* **preset** (`string`): Name of the preset.
+* **targetFile** (`string`): Target filename (incl. path) where preset should be exported.
+
 ### `importDefaultPreset`
 
 Imports default preset for given collection from a JSON file.
@@ -26,6 +37,16 @@ If there is already a default preset for the given collection it will be updated
 * **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
 * **collection** (`string`): Name of the collection.
 * **sourceFile** (`string`): Filename of the previously exported JSON file.
+
+### `importPresets`
+
+Imports all presets from a given directory.
+If the preset already exists it will be updated otherwise it will be created.
+
+#### Params
+
+* **directus** (`IDirectus<TypeMap>`): Authenticated directus instance.
+* **sourceDir** (`string`): Path to the directory where presets are stored.
 
 ### `exportPublicPermissions`
 
