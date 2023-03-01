@@ -24,7 +24,7 @@ export const getDefaultPresetForCollection = async (
 export const getPresetForCollection = async (
   directus: IDirectus<TypeMap>,
   collection: string,
-  preset: string,
+  preset: string
 ) => {
   if (preset === 'default' || preset === null) {
     return await getDefaultPresetForCollection(directus, collection);

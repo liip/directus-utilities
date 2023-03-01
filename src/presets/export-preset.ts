@@ -1,7 +1,10 @@
 import { IDirectus, TypeMap } from '@directus/sdk';
 import { writeFileSync } from 'fs';
 import { log, Level } from '../utils/logger';
-import { getDefaultPresetForCollection, getPresetForCollection } from './helper';
+import {
+  getDefaultPresetForCollection,
+  getPresetForCollection,
+} from './helper';
 
 export const exportPreset = async (
   directus: IDirectus<TypeMap>,
@@ -36,7 +39,11 @@ export const exportPreset = async (
 
   log(`Exporting preset ${preset} for collection ${collection}`, Level.INFO);
   try {
-    const presetData = await getPresetForCollection(directus, collection, preset);
+    const presetData = await getPresetForCollection(
+      directus,
+      collection,
+      preset
+    );
 
     if (!presetData) {
       log(`Preset ${preset} not found for ${collection}`, Level.WARN);

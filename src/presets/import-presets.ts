@@ -2,7 +2,10 @@ import { IDirectus, TypeMap } from '@directus/sdk';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { log, Level } from '../utils/logger';
-import { getDefaultPresetForCollection, getPresetForCollection } from './helper';
+import {
+  getDefaultPresetForCollection,
+  getPresetForCollection,
+} from './helper';
 
 export const importPresets = async (
   directus: IDirectus<TypeMap>,
@@ -21,10 +24,7 @@ export const importPresets = async (
     );
   }
 
-  log(
-    `Importing presets from ${sourceDir}`,
-    Level.INFO
-  );
+  log(`Importing presets from ${sourceDir}`, Level.INFO);
 
   try {
     const fileNames = readdirSync(sourceDir);
@@ -35,24 +35,38 @@ export const importPresets = async (
         const preset = JSON.parse(presetBuffer.toString());
         try {
           const existingPreset = await getPresetForCollection(
-                directus,
-                preset.collection,
-                preset.bookmark
-              );
+            directus,
+            preset.collection,
+            preset.bookmark
+          );
 
           if (existingPreset) {
             // updating existing preset
-            log(`Updating existing preset ${preset.bookmark ?? 'default'} for ${preset.collection}`, Level.INFO);
+            log(
+              `Updating existing preset ${preset.bookmark ?? 'default'} for ${
+                preset.collection
+              }`,
+              Level.INFO
+            );
             await directus.presets.updateOne(existingPreset.id, preset);
             log(
-              `Successfully updated existing preset ${preset.bookmark ?? 'default'} (id: ${existingPreset.id}) for ${preset.collection}`,
+              `Successfully updated existing preset ${
+                preset.bookmark ?? 'default'
+              } (id: ${existingPreset.id}) for ${preset.collection}`,
               Level.SUCCESS
             );
           } else {
-            log(`Creating new preset ${preset.bookmark ?? 'default'} for ${preset.collection}`, Level.INFO);
+            log(
+              `Creating new preset ${preset.bookmark ?? 'default'} for ${
+                preset.collection
+              }`,
+              Level.INFO
+            );
             const newPreset = await directus.presets.createOne(preset);
             log(
-              `Successfully created preset ${preset.bookmark ?? 'default'} (id: ${newPreset?.id}) for ${preset.collection}`,
+              `Successfully created preset ${
+                preset.bookmark ?? 'default'
+              } (id: ${newPreset?.id}) for ${preset.collection}`,
               Level.SUCCESS
             );
           }
@@ -62,7 +76,7 @@ export const importPresets = async (
       } catch (error) {
         log(`Error while reading ${fileName}: ${error}`, Level.ERROR);
       }
-    };
+    }
   } catch (error) {
     log(`Error while reading ${sourceDir}: ${error}`, Level.ERROR);
   }
